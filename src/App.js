@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Text } from "./components/atoms";
+import Header from "./components/organisms/Header";
+import Layout from "./components/templates/Layout";
+import Router from "./shares/Router";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Header />
+      <Layout.PageHeader>
+        <Text.PageTitle>오늘 한 끼</Text.PageTitle>
+      </Layout.PageHeader>
+      <Layout.PageContents>
+        <Router />
+      </Layout.PageContents>
+    </Layout>
   );
-}
+};
 
 export default App;
