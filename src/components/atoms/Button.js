@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styled, { css } from "styled-components";
 import { darken, lighten } from "polished";
 import PropTypes from "prop-types";
@@ -101,17 +101,18 @@ const StyledButton = styled.button`
   ${fullWidthStyle}
 `;
 
-const Button = ({
+const Button = forwardRef(({
   children,
-  type="button",
+  type = "button",
   color = "blue",
   size = "medium",
   outline,
   fullWidth,
   ...rest
-}) => {
+}, ref) => {
   return (
     <StyledButton
+      ref={ref}
       type={type}
       color={color}
       size={size}
@@ -122,7 +123,7 @@ const Button = ({
       {children}
     </StyledButton>
   );
-};
+});
 
 Button.propTypes = {
   onClick: PropTypes.func,

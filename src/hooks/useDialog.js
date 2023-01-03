@@ -8,12 +8,13 @@ export const useDialog = () => {
   }
 
   const onDialogSubmitHandler = (callback) => {
-    return () => {
-      callback();
+    return (param) => {
+      callback(param);
       setOpenDialog(false);
     }
   }
 
 
-  return [openDialog, onDialogOpenHandler, onDialogSubmitHandler];
+  return { openDialog, onDialogOpenHandler, onDialogSubmitHandler };
 }
+

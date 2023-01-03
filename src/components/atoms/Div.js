@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { borderConfig, flexConfig } from "../../shares/styleUtils";
@@ -16,9 +16,13 @@ const StyledDiv = styled.div`
   ${flexConfig}
 `;
 
-const Div = ({ children, ...rest }) => {
-  return <StyledDiv {...rest}>{children}</StyledDiv>;
-};
+const Div = forwardRef(({ children, ...rest }, ref) => {
+  return (
+    <StyledDiv ref={ref} {...rest}>
+      {children}
+    </StyledDiv>
+  );
+});
 
 Div.propTypes = {
   bgColor: PropTypes.string,
