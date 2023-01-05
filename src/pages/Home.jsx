@@ -1,9 +1,11 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Text } from "../components/atoms";
 import Post from "../components/organisms/Post";
 import { useHistory } from "../hooks/useHistory";
+import { useQuery } from "../shares/error/useQuery";
 
-const data = [
+const _data = [
   {
     id: 1,
     title: "test title 1",
@@ -28,18 +30,28 @@ const data = [
   },
 ];
 const Home = () => {
-  return (
-    <Fragment>
-      {data.map((post) => {
-        return <Post {...post} key={post.id} />;
-      })}
-      <Button.FloatCircle flex color="orange" onClick={useHistory("/create")}>
-        <Text color="white" size={2} weight="bold">
-          +
-        </Text>
-      </Button.FloatCircle>
-    </Fragment>
-  );
+  const { data } = useQuery("/todos",'get');
+  const history = useHistory();
+
+  if (data !== undefined) {
+    console.log("data::", data);
+    return (
+      <Fragment>
+        {data.map((post) => {
+          return <Post {...post} key={post.id} />;
+        })}
+        <Button.FloatCircle
+          flex
+          color="orange"
+          onClick={() => history("/create")}
+        >
+          <Text color="white" size={2} weight="bold">
+            +
+          </Text>
+        </Button.FloatCircle>
+      </Fragment>
+    );
+  }
 };
 
 export default Home;

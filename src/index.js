@@ -9,15 +9,18 @@ import theme from "./shares/theme";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./redux/config/configureStore";
 import { Provider } from "react-redux";
+import ErrorHandler from "./shares/error/ErrorHandler";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <App />
-      </ThemeProvider>
+      <ErrorHandler>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <App />
+        </ThemeProvider>
+      </ErrorHandler>
     </BrowserRouter>
   </Provider>
 );
