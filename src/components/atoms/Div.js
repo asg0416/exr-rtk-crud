@@ -1,10 +1,15 @@
 import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
-import { borderConfig, flexConfig } from "../../shares/styleUtils";
+import { borderConfig, flexConfig, fullScreenConfig } from "../../shares/styleUtils";
 
 const StyledDiv = styled.div`
-  ${({ margin = "0", padding = "0", width = "auto", height = "auto" }) => {
+  ${({
+    margin = "0",
+    padding = "0",
+    width = "auto",
+    height = "auto",
+}) => {
     return css`
       margin: ${margin};
       padding: ${padding};
@@ -14,6 +19,7 @@ const StyledDiv = styled.div`
   }}
   ${borderConfig}
   ${flexConfig}
+  ${fullScreenConfig}
 `;
 
 const Div = forwardRef(({ children, ...rest }, ref) => {

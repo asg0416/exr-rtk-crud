@@ -101,7 +101,7 @@ const StyledButton = styled.button`
   ${fullWidthStyle}
 `;
 
-const Button = forwardRef(({
+const Button = ({
   children,
   type = "button",
   color = "blue",
@@ -109,10 +109,9 @@ const Button = forwardRef(({
   outline,
   fullWidth,
   ...rest
-}, ref) => {
+})=> {
   return (
     <StyledButton
-      ref={ref}
       type={type}
       color={color}
       size={size}
@@ -123,7 +122,7 @@ const Button = forwardRef(({
       {children}
     </StyledButton>
   );
-});
+};
 
 Button.propTypes = {
   onClick: PropTypes.func,

@@ -21,7 +21,7 @@ const StyledInput = styled.input`
       color: ${palette.black};
       padding: ${padding};
     `;
-  }}
+}}
   ${borderConfig}
   ${sizeConfig}
 `;

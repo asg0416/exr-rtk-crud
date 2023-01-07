@@ -64,3 +64,20 @@ export const borderConfig = css`
     }
   }}
 `;
+
+export const fullScreenConfig = css`
+  ${({
+    theme: { palette },
+    fullScreen = false,
+  }) => {
+    if (fullScreen) {
+      return css`
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: ${palette.gray40}30;
+      `;
+    }
+  }}
+`;
+

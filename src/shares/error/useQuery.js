@@ -43,7 +43,7 @@ export const useRtkQuery = (hook = "", params = "") => {
   useEffect(() => {
     console.log("useRtkQuery data ::: ", { _data, status });
     if (isLoading) {
-      return setApiStatus(<Spinner type="loading" scale="0.7"/>);
+      return setApiStatus(<Spinner type="loading" scale="0.7" />);
     } else if (isFetching) {
       setApiStatus(<Spinner />);
     } else if (status === "fulfilled") {
@@ -57,4 +57,27 @@ export const useRtkQuery = (hook = "", params = "") => {
   }, [status]);
 
   return { data: apiData, apiStatus };
+};
+
+export const useRtkMutation = ({ hook = "", onSuccessHandler = () => {} }) => {
+  const [apiStatus, setApiStatus] = useState(<></>);
+  const { setErrorStatusCode } = useErrorStatus();
+  const mutation = api[`use${hook}Mutation`]();
+  const [mutate, { status, isLoading, isError }] = mutation;
+  console.log(mutation);
+
+  useEffect(() => {
+    console.log("useRtkQuery data ::: ", { mutation, status });
+    if (isLoading) {
+      return setApiStatus(<Spinner fullScreen={true} scale="0.7" />);
+    } else if (status === "fulfilled") {
+      setApiStatus(<></>);
+      setErrorStatusCode(200);
+      return onSuccessHandler();
+    } else if (isError) {
+      setApiStatus(<></>);
+      return setErrorStatusCode(mutation[1].error.status);
+    }
+  }, [status]);
+  return { mutate, apiStatus };
 };

@@ -1,10 +1,25 @@
-import React from 'react'
-import { PostSubmitForm } from '../components/templates'
+import React, { Fragment } from "react";
+import { PostSubmitForm } from "../components/templates";
+import { useHistory } from "../hooks";
+import { useRtkMutation } from "../shares/error/useQuery";
+import { setFormattedDate } from "../shares/utils/function";
 
 const CreatePost = (props) => {
+  const onSuccessHandler = useHistory('/')
+  const { apiStatus, mutate } = useRtkMutation({
+    hook: "SetPost",
+    onSuccessHandler,
+  });
+  const onSubmitHandler = ({ e, formData }) => {
+    const post = { ...formData, createdTime: setFormattedDate(), comments: 0 };
+    mutate(post);
+  };
   return (
-    <PostSubmitForm/>
-  )
-}
+    <Fragment>
+      {apiStatus}
+      <PostSubmitForm onSubmit={onSubmitHandler} />
+    </Fragment>
+  );
+};
 
-export default CreatePost
+export default CreatePost;

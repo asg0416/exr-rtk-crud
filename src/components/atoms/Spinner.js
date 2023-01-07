@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css, keyframes } from "styled-components";
 import Div from "./Div";
 
-export const Spinner = ({ type = "double", color, pointColor, scale }) => {
+export const Spinner = ({ type = "double", color, pointColor, scale, fullScreen=false }) => {
   const style = {
     scale,
     color,
@@ -10,7 +10,7 @@ export const Spinner = ({ type = "double", color, pointColor, scale }) => {
   };
 
   return (
-    <Div width="100%" height="100%" flex>
+    <Div fullScreen={fullScreen} width="100%" height="100%" flex>
       {type === "double" && <DoubleCircle {...style} />}
       {type === "loading" && <Loading {...style}>Load&nbsp;ng</Loading>}
     </Div>

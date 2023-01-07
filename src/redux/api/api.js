@@ -17,14 +17,47 @@ const axiosBaseQuery =
     }
   };
 
-export const api = createApi({
-  reducerPath: "api",
-  baseQuery: axiosBaseQuery({ baseUrl: process.env.REACT_APP_API_URL }),
-  endpoints: (build) => ({
-    getAllPost: build.query({
-      query: () => ({ url: "/posts", method: "get" }),
+const postApi = (build) => ({
+  getAllPost: build.query({
+    query: () => ({ url: "/posts", method: "get" }),
+  }),
+  getOnePost: build.query({
+    query: (id) => ({ url: `/posts/${id}`, method: "get" }),
+  }),
+  setPost: build.mutation({
+    query: (data) => ({ url: "/posts", method: "post", data: { ...data } }),
+  }),
+  editPost: build.mutation({
+    query: ({ id, data }) => ({
+      url: `/posts/${id}`,
+      method: "patch",
+      data: { ...data },
     }),
+  }),
+  deletePost: build.mutation({
+    query: (id) => ({ url: `/posts/${id}`, method: "delete" }),
   }),
 });
 
-export const { useGetAllPostQuery } = api;
+const commentApi = (build) => ({
+  getAllComment: build.query({
+    query: (postId) => ({ url: `/comments?postId=${postId}`, method: "get" }),
+  }),
+});
+
+export const api = createApi({
+  reducerPath: "api",
+  baseQuery: axiosBaseQuery(),
+  endpoints: (build) => ({
+    ...postApi(build),
+    ...commentApi(build),
+  }),
+});
+
+export const {
+  useGetAllPostQuery,
+  useGetOnePostQuery,
+  useSetPostMutation,
+  useEditPostMutation,
+  useDeletePostMutation,
+} = api;
