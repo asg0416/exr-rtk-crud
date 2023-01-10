@@ -32,27 +32,26 @@ const useQuery = (url, method) => {
 export { useQuery };
 
 export const useRtkQuery = (hook = "", params = "") => {
-  const [apiStatus, setApiStatus] = useState(<></>);
+  const [apiStatus, setApiStatus] = useState("");
   const [apiData, setApiData] = useState();
   const { setErrorStatusCode } = useErrorStatus();
 
-  const _data = api[`use${hook}Query`]({ params });
+  const _data = api[`use${hook}Query`](params);
   const { data, isError, isFetching, isLoading, status } = _data;
-  console.log("useRtkQuery data out ::: ", { _data, status });
 
   useEffect(() => {
     console.log("useRtkQuery data ::: ", { _data, status });
     if (isLoading) {
-      return setApiStatus(<Spinner type="loading" scale="0.7" />);
+      return setApiStatus(<Spinner scale="0.7" />);
     } else if (isFetching) {
-      setApiStatus(<Spinner />);
+      setApiStatus(<Spinner scale="0.7" />);
     } else if (status === "fulfilled") {
-      setApiStatus(<></>);
+      setApiStatus("");
       setApiData(data);
       setErrorStatusCode(200);
     } else if (isError) {
-      setApiStatus(<></>);
-      setErrorStatusCode(_data.error.status);
+      setApiStatus("");
+      setErrorStatusCode(_data.error.status || _data.error.data);
     }
   }, [status]);
 
@@ -60,24 +59,24 @@ export const useRtkQuery = (hook = "", params = "") => {
 };
 
 export const useRtkMutation = ({ hook = "", onSuccessHandler = () => {} }) => {
-  const [apiStatus, setApiStatus] = useState(<></>);
+  const [apiStatus, setApiStatus] = useState("");
   const { setErrorStatusCode } = useErrorStatus();
   const mutation = api[`use${hook}Mutation`]();
   const [mutate, { status, isLoading, isError }] = mutation;
-  console.log(mutation);
 
   useEffect(() => {
+    if (status === "uninitialized") return;
     console.log("useRtkQuery data ::: ", { mutation, status });
     if (isLoading) {
       return setApiStatus(<Spinner fullScreen={true} scale="0.7" />);
     } else if (status === "fulfilled") {
-      setApiStatus(<></>);
+      setApiStatus("");
       setErrorStatusCode(200);
       return onSuccessHandler();
     } else if (isError) {
-      setApiStatus(<></>);
+      setApiStatus("");
       return setErrorStatusCode(mutation[1].error.status);
     }
   }, [status]);
-  return { mutate, apiStatus };
+  return [mutate, apiStatus];
 };

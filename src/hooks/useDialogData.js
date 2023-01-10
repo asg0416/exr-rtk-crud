@@ -10,12 +10,16 @@ const useDialogData = () => {
   };
 
   const [_dialogInfo, _setDialogInfo] = useState(initialDialog);
-  const { openDialog, onDialogOpenHandler, onDialogSubmitHandler } =
-    useDialog();
+  const {
+    openDialog,
+    onDialogOpenHandler,
+    onDialogSubmitHandler,
+    setOpenDialog,
+  } = useDialog();
 
   const dialogInfo = {
     ..._dialogInfo,
-    onConfirm: onDialogSubmitHandler(_dialogInfo.onConfirm),
+    onConfirm: _dialogInfo.onConfirm,
     onCancel: onDialogSubmitHandler(() => {
       _dialogInfo.onCancel();
       _setDialogInfo(initialDialog);
@@ -24,11 +28,11 @@ const useDialogData = () => {
   };
 
   const setDialogInfo = (info) => {
-    _setDialogInfo(info)
+    _setDialogInfo({ ...initialDialog, ...info });
     onDialogOpenHandler();
   };
 
-  return { dialogInfo, setDialogInfo };
+  return { dialogInfo, setDialogInfo, setOpenDialog };
 };
 
 export default useDialogData;

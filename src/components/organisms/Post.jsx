@@ -4,8 +4,7 @@ import { Text } from "../atoms";
 import Div from "../atoms/Div";
 import RelativeTime from "../molecules/RelativeTime";
 
-const Post = ({ id, title, contents, date, commentCount }) => {
-
+const Post = ({ id, title, contents, createdTime, commentCount }) => {
   return (
     <Div.PostWrapper
       border
@@ -17,7 +16,7 @@ const Post = ({ id, title, contents, date, commentCount }) => {
       </Text>
       <Text.PostContentsEllipsis size={1}>{contents}</Text.PostContentsEllipsis>
       <Div flex direction="row" justify="space-between">
-        <RelativeTime time={date} />
+        <RelativeTime time={createdTime} />
         <Text size={0.8} color="gray">
           💬 {commentCount}
         </Text>

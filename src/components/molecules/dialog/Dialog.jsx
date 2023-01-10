@@ -8,12 +8,13 @@ import {
 } from "./style";
 
 const Dialog = ({
+  type = "confirm",
   title,
   children,
-  confirmText,
-  cancelText,
+  confirmText = "확인",
+  cancelText = "취소",
   onConfirm,
-  onCancel,
+  onCancel = () => {},
   visible,
 }) => {
   const [animate, setAnimate] = useState(false);
@@ -49,9 +50,11 @@ const Dialog = ({
             <h3>{title}</h3>
             {children}
             <ButtonGroup>
-              <ShortMarginButton color="gray" onClick={onCancel}>
-                {cancelText}
-              </ShortMarginButton>
+              {type === "confirm" && (
+                <ShortMarginButton color="gray" onClick={onCancel}>
+                  {cancelText}
+                </ShortMarginButton>
+              )}
               <ShortMarginButton type="submit" color="orange">
                 {confirmText}
               </ShortMarginButton>
@@ -61,11 +64,6 @@ const Dialog = ({
       </DarkBackground>
     </form>
   );
-};
-
-Dialog.defaultProps = {
-  confirmText: "확인",
-  cancelText: "취소",
 };
 
 export default Dialog;

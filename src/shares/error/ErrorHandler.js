@@ -13,14 +13,18 @@ export const ErrorHandler = ({ children }) => {
   }, [location]);
 
   const renderContent = () => {
-    console.log("error handler line 16 ::",statusCode);
+    console.log("error handler line 16 ::", statusCode);
 
     if (statusCode === 500) {
-      return <ErrorPage500/>;
+      return <ErrorPage500 />;
+    }
+
+    if (statusCode === "Network Error") {
+      return <ErrorPage404 message={statusCode} />;
     }
 
     if (statusCode === 404) {
-      return <ErrorPage404/>;
+      return <ErrorPage404 />;
     }
 
     return children;

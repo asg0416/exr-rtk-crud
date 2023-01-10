@@ -15,6 +15,11 @@ export const useDialog = () => {
   }
 
 
-  return { openDialog, onDialogOpenHandler, onDialogSubmitHandler };
+  return {
+    openDialog,
+    onDialogOpenHandler,
+    onDialogSubmitHandler,
+    setOpenDialog,
+  };
 }
 

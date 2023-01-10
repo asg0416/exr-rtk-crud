@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useTypeContext } from "../../hooks/useCustomContext";
+import { useDetailContext, useTypeContext } from "../../hooks/useCustomContext";
 import { Div, Text } from "../atoms";
 import RelativeTime from "./RelativeTime";
 
@@ -22,6 +22,7 @@ UserProfile.Comment = styled(UserProfile)`
 
 const UserInfo = ({ userName = "익명" }) => {
   const type = useTypeContext();
+  const { createdTime } = useDetailContext();
 
   const userProfileType = { post: UserProfile, comment: UserProfile.Comment };
   const ProfileImage = userProfileType[`${type}`];
@@ -30,7 +31,7 @@ const UserInfo = ({ userName = "익명" }) => {
       <ProfileImage>👨‍🍳</ProfileImage>
       <Div flex height="100%" justify="space-around" align="flex-start">
         <Text weight="600">{userName}</Text>
-        {type === "post" && <RelativeTime time="2022-11-25" />}
+        {type === "post" && <RelativeTime time={createdTime} />}
       </Div>
     </Div>
   );

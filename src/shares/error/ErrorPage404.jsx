@@ -2,11 +2,11 @@ import React from "react";
 import { Button, Div } from "../../components/atoms";
 import { useHistory } from "../../hooks";
 
-export const ErrorPage404 = () => {
+export const ErrorPage404 = ({ message = "ErrorPage404" }) => {
   const history = useHistory();
   return (
     <div>
-      ErrorPage404
+      {message}
       <Div>
         <Button
           color="orange"

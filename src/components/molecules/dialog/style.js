@@ -67,9 +67,6 @@ const DialogBlock = styled(Div)`
     margin: 0;
     font-size: 1.5rem;
   }
-  p {
-    font-size: 1.125rem;
-  }
 
   
   animation-duration: 0.25s;
@@ -102,7 +99,7 @@ const StyledWrapper = styled(Div)`
   h3 {
     margin-bottom: 1.2rem;
   }
-  p {
+  p.main {
     font-size: 1rem;
   }
   input {

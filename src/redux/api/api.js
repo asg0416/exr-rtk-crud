@@ -20,9 +20,11 @@ const axiosBaseQuery =
 const postApi = (build) => ({
   getAllPost: build.query({
     query: () => ({ url: "/posts", method: "get" }),
+    providesTags: (result, error, arg) => result.map((data) => ({ type: "Post", id: data.id }))
   }),
   getOnePost: build.query({
     query: (id) => ({ url: `/posts/${id}`, method: "get" }),
+    providesTags: (result, error, arg) => [{ type: "Post", id: arg }],
   }),
   setPost: build.mutation({
     query: (data) => ({ url: "/posts", method: "post", data: { ...data } }),
@@ -33,6 +35,7 @@ const postApi = (build) => ({
       method: "patch",
       data: { ...data },
     }),
+    invalidatesTags: (result, error, { id }) => [{ type: "Post", id }],
   }),
   deletePost: build.mutation({
     query: (id) => ({ url: `/posts/${id}`, method: "delete" }),
@@ -42,12 +45,36 @@ const postApi = (build) => ({
 const commentApi = (build) => ({
   getAllComment: build.query({
     query: (postId) => ({ url: `/comments?postId=${postId}`, method: "get" }),
+    providesTags: (result, error, arg) => [{ type: "Comment", id: arg }],
+  }),
+  getOneComment: build.query({
+    query: (id) => ({ url: `/comments/${id}`, method: "get" }),
+  }),
+  setComment: build.mutation({
+    query: (data) => ({ url: "/comments", method: "post", data: { ...data } }),
+    invalidatesTags: (result, error, { postId }) => [
+      { type: "Comment", id: postId },
+    ],
+  }),
+  editComment: build.mutation({
+    query: ({ id, data }) => ({
+      url: `/comments/${id}`,
+      method: "patch",
+      data: { ...data },
+    }),
+  }),
+  deleteComment: build.mutation({
+    query: (id, postId) => ({ url: `/comments/${id}`, method: "delete" }),
+    invalidatesTags: (result, error, {postId}) => [
+      { type: "Comment", id: postId },
+    ],
   }),
 });
 
 export const api = createApi({
   reducerPath: "api",
   baseQuery: axiosBaseQuery(),
+  tagTypes: ["Post", "Comment"],
   endpoints: (build) => ({
     ...postApi(build),
     ...commentApi(build),
@@ -60,4 +87,5 @@ export const {
   useSetPostMutation,
   useEditPostMutation,
   useDeletePostMutation,
+  useGetAllCommentQuery,
 } = api;

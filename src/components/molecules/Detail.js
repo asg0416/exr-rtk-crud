@@ -1,15 +1,19 @@
 import styled, { css } from "styled-components";
-import { TypeContext, useTypeContext } from "../../hooks/useCustomContext";
+import {
+  TypeContext,
+  useDetailContext,
+  useTypeContext,
+} from "../../hooks/useCustomContext";
 import { Div, Text } from "../atoms";
 import ActionBtns from "./ActionBtns";
 import RelativeTime from "./RelativeTime";
 import UserInfo from "./UserInfo";
 
 const StyledWrapper = styled(Div)`
-  ${({ type, bg=null }) => {
+  ${({ type, bg = null }) => {
     if (type === "comment") {
       return css`
-        background-color: ${bg ? 'aliceblue' : 'none'};
+        background-color: ${bg ? "aliceblue" : "none"};
         border-top: none;
       `;
     }
@@ -18,6 +22,7 @@ const StyledWrapper = styled(Div)`
 
 const Detail = {
   Wrapper: ({ children, type, ...rest }) => {
+
     return (
       <TypeContext.Provider value={type}>
         <StyledWrapper
@@ -34,24 +39,28 @@ const Detail = {
     );
   },
   Header: () => {
+    const { userName } = useDetailContext();
+
     return (
       <Div flex direction="row" justify="space-between" width="100%">
-        <UserInfo />
+        <UserInfo {...{userName}} />
         <ActionBtns />
       </Div>
     );
   },
-  Contents: ({ title, content }) => {
+  Contents: () => {
+    const { title, contents } = useDetailContext();
     const isPost = Boolean(title);
     return (
       <Div width="100%">
         {isPost && <Text.PostTitle>{title}</Text.PostTitle>}
-        <Text.PostContent isPost={isPost}>{content}</Text.PostContent>
+        <Text.PostContent isPost={isPost}>{contents}</Text.PostContent>
       </Div>
     );
   },
-  Footer: ({ commentCount = 0, date }) => {
+  Footer: () => {
     const type = useTypeContext();
+    const { commentCount = 0, createdTime } = useDetailContext();
 
     const footerStyle = {
       width: "100%",
@@ -64,7 +73,7 @@ const Detail = {
         </Text>
       );
     }
-    return <RelativeTime time={date} {...footerStyle} />;
+    return <RelativeTime time={createdTime} {...footerStyle} />;
   },
 };
 

@@ -11,7 +11,7 @@ const CreatePost = (props) => {
     onSuccessHandler,
   });
   const onSubmitHandler = ({ e, formData }) => {
-    const post = { ...formData, createdTime: setFormattedDate(), comments: 0 };
+    const post = { ...formData, createdTime: setFormattedDate(), commentCount: 0 };
     mutate(post);
   };
   return (
