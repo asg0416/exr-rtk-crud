@@ -6,7 +6,7 @@ import { setFormattedDate } from "../shares/utils/function";
 
 const CreatePost = (props) => {
   const onSuccessHandler = useHistory('/')
-  const { apiStatus, mutate } = useRtkMutation({
+  const [mutate, apiStatus] = useRtkMutation({
     hook: "SetPost",
     onSuccessHandler,
   });
